@@ -1,0 +1,103 @@
+<div class="pizza-creator-wrap">
+    <h1>Create your own Pizza</h1>
+    <h2>Select from scratch or pick an Offer</h2>
+
+    <table class="pizza-creator-table">
+        <thead>
+            <tr class="header">
+                <td></td>
+                <td colspan="4" class="centered-text">Pizza Size</td>
+            </tr>
+            <tr>
+                <td>Toppings</td>
+                <td *ngFor="let size of pizzas; let i = index;">
+                    <img class="pizza-img" src='assets/img/pizza/pizza.png' alt="Pizza Size for {{size.name}}"/>
+                    {{size.name}} ({{size.price | currency: '$'}})
+                </td>
+                
+            </tr>
+            
+        </thead>
+        <tbody>
+            
+        <!-- Toppings -->    
+        <!-- Veggie Group -->
+        <!-- <tr class="divider">
+            <td colspan="5" class="veggie-row">Veggie</td>
+        </tr> -->
+        <ng-container *ngFor="let topping of toppings ; let i = index;">
+            <tr class="divider" *ngIf="topping.groupName !== toppings[i -1]?.groupName">
+                <td colspan="5">{{topping.groupName}}</td>
+            </tr> 
+            <tr>
+                <td class="padded"> 
+                    <img class="topping-img" src='{{ "assets/img/toppings/" + topping.img }}' alt="Pizza Topping {{topping.name}}"/>
+                    {{pizzas[0].toppings[i].name}} ({{pizzas[0].toppings[i].price | currency: '$'}})
+                </td>
+                <td><input type="checkbox" id="cb-small-{{pizzas[0].toppings[i].id}}" [(ngModel)]="pizzas[0].toppings[i].isSelected"/></td>
+                <td><input type="checkbox" id="cb-medium-{{pizzas[1].toppings[i].id}}" [(ngModel)]="pizzas[1].toppings[i].isSelected"/></td>
+                <td><input type="checkbox" id="cb-large-{{pizzas[2].toppings[i].id}}" [(ngModel)]="pizzas[2].toppings[i].isSelected"/></td>
+                <td><input type="checkbox" id="cb-extralarge-{{pizzas[3].toppings[i].id}}" [(ngModel)]="pizzas[3].toppings[i].isSelected"/></td>
+            </tr>
+
+        </ng-container>
+        
+        
+        
+        <!-- End of Toppings -->
+
+        <tr>
+            <td>Promotional</td>
+            <td>{{CheckOffers(0).name }}</td>
+            <td>{{CheckOffers(1).name }}</td>
+            <td>{{CheckOffers(2).name }}</td>
+            <td>{{CheckOffers(3).name }}</td>
+        </tr>
+        <tr class="total">
+            <td>Total</td>
+            <td><input type="number" min="0" max="5" [(ngModel)]="pizzas[0].total" /></td>
+            <td><input type="number" min="0" max="5" [(ngModel)]="pizzas[1].total" /></td>
+            <td><input type="number" min="0" max="5" [(ngModel)]="pizzas[2].total" /></td>
+            <td><input type="number" min="0" max="5" [(ngModel)]="pizzas[3].total" /></td>
+        </tr>
+        <tr class="summary">
+            <td></td>
+            <td>
+                {{summaryOfPizza(0) | currency : "$"}} 
+            </td>
+            <td>
+                <div *ngIf="CheckOffers(1).value == 0">
+                    <span>{{summaryOfPizza(1) | currency : "$"}}</span>
+                </div>                
+                <div *ngIf="CheckOffers(1).value > 0">
+                    <span class="price-was">{{summaryOfPizza(1) | currency : "$"}}</span>
+                    <span>{{CheckOffers(1).value | currency: "$"}}</span>
+                </div>                
+            </td>
+            <td>
+                <div *ngIf="CheckOffers(2).value == 0">
+                    <span>{{summaryOfPizza(2) | currency : "$"}}</span>
+                </div>                
+                <div *ngIf="CheckOffers(2).value > 0">
+                    <span class="price-was">{{summaryOfPizza(2) | currency : "$"}}</span>
+                    <span>{{CheckOffers(2).value | currency: "$"}}</span>
+                </div>
+            </td>
+            <td>
+                <div *ngIf="CheckOffers(3).value == 0">
+                    <span>{{summaryOfPizza(3) | currency : "$"}}</span>
+                </div>                
+                <div *ngIf="CheckOffers(3).value > 0">
+                    <span class="price-was">{{summaryOfPizza(3) | currency : "$"}}</span>
+                    <span>{{CheckOffers(3).value | currency: "$"}}</span>
+                </div>
+            </td>
+            
+        </tr>
+
+
+        </tbody>
+
+    </table>
+</div>
+
